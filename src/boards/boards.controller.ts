@@ -1,6 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
-import { Board } from './boards.model';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Board, BoardStatus } from './boards.model';
 import { BoardsService } from './boards.service';
+import { CreateBoardDto } from './dto/create-board.dto';
 
 @Controller('boards')
 export class BoardsController {
@@ -9,6 +10,38 @@ export class BoardsController {
         @Get('/')
         getAllBoard(): Board[] {
             return this.boardService.getAllBoards();
+        }
+
+        @Post()
+        createBoard(
+            @Body() createBoardDto : CreateBoardDto    
+        ): Board {
+            return this.boardService.createBoard(createBoardDto);
+//console.log('description', description);
+        }
+        /**
+         * 바디 전체를 가져올 때,
+         */
+        // createBoard(@Body() body){
+        //     console.log('body', body);
+        // }
+
+        @Get('/:id')
+        getBoardById(@Param('id') id: string): Board {
+            return this.boardService.getBoardById(id);
+        }
+
+        @Delete('/:id')
+        deleteBoard(@Param('id') id: string): void {
+            this.boardService.deleteBoard(id);
+        }
+
+        @Patch('/id')
+        updateBoardStatus(
+            @Param('id') id: string,
+            @Body('status') status: BoardStatus,
+        ) {
+            return this.boardService.updateBoardStatus(id, status);
         }
 }
 
