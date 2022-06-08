@@ -1,50 +1,63 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
-import { Board, BoardStatus } from './boards.model';
+import { Board } from './board.entity';
+import { BoardStatus } from './boards-status.enum';
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe';
 
 @Controller('boards')
 export class BoardsController {
-    constructor(private boardService : BoardsService) {}
-        //인수가 프로퍼티로 
-        @Get('/')
-        getAllBoard(): Board[] {
-            return this.boardService.getAllBoards();
-        }
+     constructor(private boardService : BoardsService) {}
 
-        @Post()
-        @UsePipes(ValidationPipe)
-        createBoard(
-            @Body() createBoardDto : CreateBoardDto    
-        ): Board {
-            return this.boardService.createBoard(createBoardDto);
-//console.log('description', description);
-        }
-        /**
-         * 바디 전체를 가져올 때,
-         */
-        // createBoard(@Body() body){
-        //     console.log('body', body);
-        // }
+     @Get('/:id')
+     getBoardById(@Param('id') id:number) : Promise<Board> {
+          return this.boardService.getBoardById(id);
+     }
 
-        @Get('/:id')
-        getBoardById(@Param('id') id: string): Board {
-            return this.boardService.getBoardById(id);
-        }
+     @Post()
+     @UsePipes(ValidationPipe)
+     createBoard(@Body()createBoardDto: CreateBoardDto) : Promise<Board> {
+          return this.boardService.createBoard(createBoardDto);
+     } 
 
-        @Delete('/:id')
-        deleteBoard(@Param('id') id: string): void {
-            this.boardService.deleteBoard(id);
-        }
+//         //인수가 프로퍼티로 
+//         @Get('/')
+//         getAllBoard(): Board[] {
+//             return this.boardService.getAllBoards();
+//         }
 
-        @Patch('/:id/status')
-        updateBoardStatus(
-            @Param('id') id: string,
-            @Body('status', BoardStatusValidationPipe) status: BoardStatus,
-        ) {
-            return this.boardService.updateBoardStatus(id, status);
-        }
+//         @Post()
+//         @UsePipes(ValidationPipe)
+//         createBoard(
+//             @Body() createBoardDto : CreateBoardDto    
+//         ): Board {
+//             return this.boardService.createBoard(createBoardDto);
+// //console.log('description', description);
+//         }
+//         /**
+//          * 바디 전체를 가져올 때,
+//          */
+//         // createBoard(@Body() body){
+//         //     console.log('body', body);
+//         // }
+
+//         @Get('/:id')
+//         getBoardById(@Param('id') id: string): Board {
+//             return this.boardService.getBoardById(id);
+//         }
+
+//         @Delete('/:id')
+//         deleteBoard(@Param('id') id: string): void {
+//             this.boardService.deleteBoard(id);
+//         }
+
+//         @Patch('/:id/status')
+//         updateBoardStatus(
+//             @Param('id') id: string,
+//             @Body('status', BoardStatusValidationPipe) status: BoardStatus,
+//         ) {
+//             return this.boardService.updateBoardStatus(id, status);
+//         }
 }
 
 
