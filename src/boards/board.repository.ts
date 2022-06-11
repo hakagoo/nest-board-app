@@ -1,10 +1,12 @@
-import { EntityRepository, Repository } from "typeorm";
+import { Entity, EntityRepository, Repository } from "typeorm";
 import { Board } from "./board.entity";
 import { BoardStatus } from "./boards-status.enum";
 import { CreateBoardDto } from "./dto/create-board.dto";
 
-@EntityRepository(Board)
-export class BoardRepository extends Repository<Board> {
+type NewType = Board;
+
+@EntityRepository()
+export class BoardRepository extends Repository<NewType> {
     async createBoard(createBoardDto: CreateBoardDto) : Promise<Board> {
         const {title, description} = createBoardDto;
         const board = this.create(
