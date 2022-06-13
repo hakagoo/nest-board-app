@@ -11,9 +11,9 @@ export const typeORMConfig :TypeOrmModuleOptions = {
     //username: 'postgres',
     //password: 'postgres',
     database: 'board-app',
-    //entities: [__dirname + '/../**/*.entity.{js, ts}'],
+    entities: [__dirname + `/../**/*.entity.{js, ts}`],
     //entities: ['/../**/*.*.{js, ts}'],
-    entities: [Board],
+    //entities: [Board],
     //entities: ["./**/*.entities.{js, ts}"],
     synchronize: true
 }

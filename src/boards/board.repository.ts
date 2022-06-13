@@ -3,10 +3,8 @@ import { Board } from "./board.entity";
 import { BoardStatus } from "./boards-status.enum";
 import { CreateBoardDto } from "./dto/create-board.dto";
 
-type NewType = Board;
-
 @EntityRepository()
-export class BoardRepository extends Repository<NewType> {
+export class BoardRepository extends Repository<Board> {
     async createBoard(createBoardDto: CreateBoardDto) : Promise<Board> {
         const {title, description} = createBoardDto;
         const board = this.create(
